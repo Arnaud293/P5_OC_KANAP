@@ -29,6 +29,9 @@ const allproductsdisplay = () => {
                 <img src="${canap.imageUrl}" alt="${canap.altTxt}">
                  <h3 class="productName">${canap.name}</h3>
                  <p class="productDescription">${canap.description}</p>
+                 <p>${canap.price} <span id="price">
+                  
+                </span>€</p>
              </article>
                 
                 
@@ -39,3 +42,6 @@ const allproductsdisplay = () => {
         .join("");
 }
 allproductsdisplay();
+
+// Faire le lien entre page accueil et page produit 
+
