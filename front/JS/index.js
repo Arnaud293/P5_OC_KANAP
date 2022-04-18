@@ -26,7 +26,7 @@ const allproductsdisplay = () => {
         `
         <a href="product.html">
             <article>
-                <img src="${canap.imageUrl}">
+                <img src="${canap.imageUrl}" alt="${canap.altTxt}">
                  <h3 class="productName">${canap.name}</h3>
                  <p class="productDescription">${canap.description}</p>
              </article>
