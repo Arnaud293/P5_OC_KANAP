@@ -20,11 +20,13 @@ getallproducts();
 
 const allproductsdisplay = () => {
 
+
+
     allproducts.innerHTML = canapData.map((canap) =>
 
 
         `
-        <a href="product.html">
+        <a href="product.html?${canap._id}">
             <article>
                 <img src="${canap.imageUrl}" alt="${canap.altTxt}">
                  <h3 class="productName">${canap.name}</h3>
