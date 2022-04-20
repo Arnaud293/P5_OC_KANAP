@@ -1,32 +1,32 @@
 const allproducts = document.getElementById('items');
 const productscards = document.querySelector('article');
 
+
+
 let canapData = []
 
 // Récupérer les donnée des canapés
 
 const getallproducts = async () => {
-    await fetch('http://localhost:3000/api/products')
-        .then((res) => res.json())
-        .then((data) => canapData = data);
-
+    const res = await fetch('http://localhost:3000/api/products')
+    canapData = await res.json();
     console.log(canapData);
-    allproductsdisplay()
+
 
 }
 getallproducts();
 
 // Afficher les canapés sur la page d'accueil
 
-const allproductsdisplay = () => {
+const allproductsdisplay = async () => {
 
-
+    await getallproducts();
 
     allproducts.innerHTML = canapData.map((canap) =>
 
 
         `
-        <a href="product.html?${canap._id}">
+        <a href="product.html?id=${canap._id}">
             <article>
                 <img src="${canap.imageUrl}" alt="${canap.altTxt}">
                  <h3 class="productName">${canap.name}</h3>
