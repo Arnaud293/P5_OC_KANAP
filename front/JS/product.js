@@ -1,8 +1,11 @@
 const product = document.getElementById('item');
 const productcontenair = document.querySelector('article');
 
+// Lien entre page accueil et produit
+
 let params = new URL(document.location).searchParams;
 let canapId = params.get('id');
+
 
 let canapData = [];
 
@@ -30,7 +33,10 @@ const DisplayById = async () => {
     productPrice.innerText = canapData.price;
     let productDescription = document.getElementById('description');
     productDescription.innerHTML = canapData.description;
-
+    // Mapping pour choix de la couleur (plusieurs éléments)
+    document.querySelector("#colors").insertAdjacentHTML
+        ("beforeend", canapData.colors.map(colors => `<option value="${colors}">${colors}</option>`)
+            .join());
 
 
 

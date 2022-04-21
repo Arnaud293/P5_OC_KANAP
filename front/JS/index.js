@@ -16,7 +16,7 @@ const getallproducts = async () => {
 }
 getallproducts();
 
-// Afficher les canapés sur la page d'accueil
+// Afficher les canapés sur la page d'accueil et lien page produit (?id=)
 
 const allproductsdisplay = async () => {
 
@@ -45,5 +45,5 @@ const allproductsdisplay = async () => {
 }
 allproductsdisplay();
 
-// Faire le lien entre page accueil et page produit 
+
 
