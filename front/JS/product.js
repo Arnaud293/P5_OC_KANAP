@@ -1,8 +1,5 @@
 const product = document.getElementById('item');
 const productcontenair = document.querySelector('article');
-const productTitle = document.getElementById('title');
-const productPrice = document.getElementById('price');
-const productDescription = document.getElementById('description');
 
 let params = new URL(document.location).searchParams;
 let canapId = params.get('id');
@@ -27,6 +24,12 @@ const DisplayById = async () => {
 
     let productImg = document.querySelector('.item__img');
     productImg.innerHTML = `<img src="${canapData.imageUrl}" alt="${canapData.altTxt}">`;
+    let productTitle = document.getElementById('title');
+    productTitle.innerText = canapData.name;
+    let productPrice = document.getElementById('price');
+    productPrice.innerText = canapData.price;
+    let productDescription = document.getElementById('description');
+    productDescription.innerHTML = canapData.description;
 
 
 
