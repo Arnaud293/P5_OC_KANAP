@@ -75,7 +75,7 @@ document.querySelector('#addToCart').addEventListener('click', function () {
         name: canapData.name,
         id: canapId,
         color: document.getElementById('colors').value,
-        quantity: document.getElementById('quantity').value,
+        quantity: Number(document.getElementById('quantity').value),
 
     }
 
@@ -105,12 +105,15 @@ OK pour consulter votre panier, ANNULER pour continuer vos achats`)) {
     // Produit(s) présent(s) dans le localstorage
 
     if (notEmpty) {
-        notEmpty.push(optionProduct);
-        let sameId = notEmpty.find(p => p.id == product.id && p.color == product.color);
+
+        let sameId = notEmpty.find(p => p.id == optionProduct.id && p.color == optionProduct.color);
         if (sameId != undefined) {
-            sameId.quantity++;
+            sameId.quantity = Number(optionProduct.quantity += sameId.quantity);
+
+
+
         } else {
-            product.quantity = 1;
+            optionProduct.quantity = 1;
             notEmpty.push(optionProduct);
 
         }
