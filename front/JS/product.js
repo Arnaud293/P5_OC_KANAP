@@ -51,17 +51,6 @@ DisplayById()
 
 // Ecoute du panier
 
-// ------------- Fonction if pour choix produit mise de côté --------------
-
-// if (Number(quantity) <= 0 && color == '') {
-//     alert('Veuillez choisir une couleur et une quantité');
-//     return
-// }
-// ------------------------------------------------------------------------
-
-
-
-
 
 document.querySelector('#addToCart').addEventListener('click', function () {
 
