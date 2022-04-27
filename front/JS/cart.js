@@ -31,6 +31,8 @@ const getCanapData = async () => {
         }
         else if (itemInCart.some(lsId => {
 
+            idColor = lsId.color
+            idQuantity = lsId.quantity
             return lsId.id === id._id
 
 
@@ -61,8 +63,8 @@ const displayBasket = () => {
         let cartArticle = document.createElement("article");
         document.getElementById('cart__items').appendChild(cartArticle);
         cartArticle.className = "cart__item";
-        cartArticle.setAttribute('data-id', itemInCart.id);
-        cartArticle.setAttribute('data-color', itemInCart.color);
+        cartArticle.setAttribute('data-id', id._id);
+        cartArticle.setAttribute('data-color', id.colors);
 
 
         // IMG
@@ -74,6 +76,54 @@ const displayBasket = () => {
         divCartImg.appendChild(cartImg);
         cartImg.src = id.imageUrl;
         cartImg.alt = id.altTxt;
+
+        // Description Bloc 
+
+        let divItemContent = document.createElement("div");
+        divItemContent.className = 'cart__item__content';
+        cartArticle.appendChild(divItemContent);
+        let divItemDescription = document.createElement('div');
+        divItemContent.appendChild(divItemDescription);
+        divItemDescription.className = 'cart__item__content__description';
+
+        // Description content : Title
+
+        let productName = document.createElement("h2");
+        productName.textContent = id.name;
+        divItemDescription.appendChild(productName);
+
+        // Description content : color
+
+        let productColor = document.createElement('p');
+        productColor.textContent = idColor;
+        divItemDescription.appendChild(productColor);
+
+        // Description content : price 
+
+        let productPrice = document.createElement('p');
+        productPrice.textContent = id.price + ' ' + '€';
+        divItemDescription.appendChild(productPrice);
+
+        // Settings bloc 
+
+        let settingsBloc = document.createElement('div');
+        settingsBloc.className = 'cart__item__content__settings';
+        divItemContent.appendChild(settingsBloc);
+        let settingsQuantity = document.createElement('div');
+        settingsQuantity.className = 'cart__item__content__settings__quantity';
+        settingsBloc.appendChild(settingsQuantity);
+
+        let quantityTxt = document.createElement('p');
+        quantityTxt.textContent = 'Qte : ';
+        settingsQuantity.appendChild(quantityTxt);
+        let inputQuantity = document.createElement('input');
+        inputQuantity.setAttribute("type", "number");
+        inputQuantity.setAttribute("name", "itemQuantity");
+        inputQuantity.setAttribute("min", 1);
+        inputQuantity.setAttribute("max", 100);
+        inputQuantity.setAttribute("value", idQuantity);
+        inputQuantity.classname = 'itemQuantity';
+        settingsQuantity.appendChild(inputQuantity);
 
     }
 }
