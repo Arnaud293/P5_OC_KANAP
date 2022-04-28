@@ -12,7 +12,7 @@ console.table(itemInCart);
 
 //  Récupérer les donnée des canapés hors lS 
 
-let newArray;
+// let newArray;
 
 const getCanapData = async () => {
 
@@ -20,35 +20,49 @@ const getCanapData = async () => {
     canapData = await res.json();
 
 
-    // Si l'id est le même dans canapData et le localStorage
+    // Si l'id est le même dans canapData et le localStorage sinon appliquer la fonction pour afficher les éléments :
 
-    newArray = [];
-    for (id of canapData) {
-        if (!itemInCart) {
-            document.getElementById('cart__items').insertAdjacentHTML('beforeend', `<p>Votre panier est vide.</p>`);
-            document.getElementById('cart__items').style.textAlign = "center";
-            return
-        }
-        else if (itemInCart.some(lsId => {
+    // newArray = [];
+    // for (id of canapData) {
+    if (itemInCart.length === 0) {
+        document.getElementById('cart__items').insertAdjacentHTML('beforeend', `<p>Votre panier est vide.</p>`);
+        document.getElementById('cart__items').style.textAlign = "center";
+        return
+    }
 
-            idColor = lsId.color
-            idQuantity = lsId.quantity
-            return lsId.id === id._id
+    else {
+
+        for (let i = 0; i < itemInCart.length; i++) {
+            const canap = itemInCart[i];
+            const realCanap = canapData.find(data => data._id === canap.id);
+            displayBasket(canap, realCanap);
 
 
-        })) {
-            newArray.push(id);
-            console.table(id);
-            displayBasket()
         }
     }
+
+
+    // else if (itemInCart.some(lsId => {
+
+    //     idColor = lsId.color
+    //     idQuantity = lsId.quantity
+    //     idColor === id.colors
+    //     return lsId.id === id._id
+
+
+    // })) {
+    //     newArray.push(id);
+    //     console.log(id);
+    //     displayBasket()
+    // }
+    // }
 
 }
 getCanapData()
 
 
-// Si le panier est vide
-const displayBasket = () => {
+
+const displayBasket = (id, realId) => {
 
     if (!itemInCart) {
         document.getElementById('cart__items').insertAdjacentHTML('beforeend', `<p>Votre panier est vide.</p>`);
@@ -63,8 +77,8 @@ const displayBasket = () => {
         let cartArticle = document.createElement("article");
         document.getElementById('cart__items').appendChild(cartArticle);
         cartArticle.className = "cart__item";
-        cartArticle.setAttribute('data-id', id._id);
-        cartArticle.setAttribute('data-color', id.colors);
+        cartArticle.setAttribute('data-id', id.id);
+        cartArticle.setAttribute('data-color', id.color);
 
 
         // IMG
@@ -74,8 +88,8 @@ const displayBasket = () => {
         divCartImg.className = "cart__item__content";
         let cartImg = document.createElement("img");
         divCartImg.appendChild(cartImg);
-        cartImg.src = id.imageUrl;
-        cartImg.alt = id.altTxt;
+        cartImg.src = realId.imageUrl;
+        cartImg.alt = realId.altTxt;
 
         // Description Bloc 
 
@@ -95,13 +109,13 @@ const displayBasket = () => {
         // Description content : color
 
         let productColor = document.createElement('p');
-        productColor.textContent = idColor;
+        productColor.textContent = id.color;
         divItemDescription.appendChild(productColor);
 
         // Description content : price 
 
         let productPrice = document.createElement('p');
-        productPrice.textContent = id.price + ' ' + '€';
+        productPrice.textContent = realId.price + ' ' + '€';
         divItemDescription.appendChild(productPrice);
 
         // Settings bloc 
@@ -113,6 +127,8 @@ const displayBasket = () => {
         settingsQuantity.className = 'cart__item__content__settings__quantity';
         settingsBloc.appendChild(settingsQuantity);
 
+        // Settings bloc : manage quantity (add)
+
         let quantityTxt = document.createElement('p');
         quantityTxt.textContent = 'Qte : ';
         settingsQuantity.appendChild(quantityTxt);
@@ -121,20 +137,37 @@ const displayBasket = () => {
         inputQuantity.setAttribute("name", "itemQuantity");
         inputQuantity.setAttribute("min", 1);
         inputQuantity.setAttribute("max", 100);
-        inputQuantity.setAttribute("value", idQuantity);
+        inputQuantity.setAttribute("value", id.quantity);
         inputQuantity.classname = 'itemQuantity';
         settingsQuantity.appendChild(inputQuantity);
 
+        // Settings bloc : remove quantity
+
+        let removeQuantity = document.createElement('div');
+        removeQuantity.className = 'cart__item__content__settings__delete';
+        settingsBloc.appendChild(removeQuantity);
+        let removeQuantityButton = document.createElement('p');
+        removeQuantityButton.className = 'deleteItem';
+        removeQuantityButton.textContent = 'Supprimer';
+        removeQuantity.appendChild(removeQuantityButton);
+
+        // Listener to remove from basket and storage 
+
+        removeQuantityButton.addEventListener('click', function (p) {
+
+            const newCart = { ...itemInCart.filter(p => p.id != itemInCart.id && p.color === itemInCart.color) };
+            // localStorage.setItem("product", JSON.stringify(newCart));
+            console.log(newCart);
+            alert("Le produit à été retiré du panier !");
+
+            // Je renvoie la même chose ??
+
+
+
+        })
     }
 }
 
-
-
-
-
-
-
-// Afficher les produits présents dans le panier 
 
 
 
