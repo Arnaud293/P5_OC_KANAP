@@ -41,22 +41,6 @@ const getCanapData = async () => {
         }
     }
 
-
-    // else if (itemInCart.some(lsId => {
-
-    //     idColor = lsId.color
-    //     idQuantity = lsId.quantity
-    //     idColor === id.colors
-    //     return lsId.id === id._id
-
-
-    // })) {
-    //     newArray.push(id);
-    //     console.log(id);
-    //     displayBasket()
-    // }
-    // }
-
 }
 getCanapData()
 
@@ -140,6 +124,11 @@ const displayBasket = (id, realId) => {
         inputQuantity.setAttribute("value", id.quantity);
         inputQuantity.classname = 'itemQuantity';
         settingsQuantity.appendChild(inputQuantity);
+        inputQuantity.addEventListener('change', function (q) {
+            id.quantity = inputQuantity.value;
+            // localStorage.setItem("product", JSON.stringify(itemInCart));
+            console.log(itemInCart)
+        })
 
         // Settings bloc : remove quantity
 
@@ -149,25 +138,45 @@ const displayBasket = (id, realId) => {
         let removeQuantityButton = document.createElement('p');
         removeQuantityButton.className = 'deleteItem';
         removeQuantityButton.textContent = 'Supprimer';
+        removeQuantityButton.setAttribute("id", `${id.id && id.color}`)
         removeQuantity.appendChild(removeQuantityButton);
+        removeQuantityButton.addEventListener('click', function (e) {
+            e.preventDefault();
 
-        // Listener to remove from basket and storage 
+            let idToRemove = id.id;
+            let colorToRemove = id.color;
+            console.log(idToRemove);
+            console.log(colorToRemove)
 
-        removeQuantityButton.addEventListener('click', function (p) {
-
-            const newCart = { ...itemInCart.filter(p => p.id != itemInCart.id && p.color === itemInCart.color) };
-            // localStorage.setItem("product", JSON.stringify(newCart));
-            console.log(newCart);
-            alert("Le produit à été retiré du panier !");
-
-            // Je renvoie la même chose ??
-
-
-
+            itemInCart = itemInCart.filter(element => element.id !== idToRemove || element.color !== colorToRemove);
+            // localStorage.setItem("product", JSON.stringify(itemInCart));
+            e.target.closest('.cart__item').remove();
+            alert(`${id.quantity} ${id.name} ${id.color} à été retiré du panier !`);
+            // document.location.reload();
+            console.log(itemInCart)
         })
+
+
+
+
     }
+
+
 }
 
+// function getTotals() {
+//     // Qte
+//     let canapQte = document.querySelector('.itemQuantity');
+//     let qteLength = canapQte.length;
+//     totalQte = 0;
+
+//     for (let q = 0; q < qteLength; ++q) {
+//         totalQte += canapQte[q].valueAsNumber;
+//     }
+//     let totalQuantity = document.getElementById('totalQuantity');
+//     totalQuantity.innerHTML = totalQte;
+//     console.log(totalQte);
+// }
 
 
 
