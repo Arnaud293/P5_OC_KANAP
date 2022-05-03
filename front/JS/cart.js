@@ -10,7 +10,7 @@ console.table(itemInCart);
 
 
 
-//  Récupérer les donnée des canapés hors lS 
+//  Récupérer les données des canapés hors lS 
 
 // let newArray;
 
@@ -36,6 +36,7 @@ const getCanapData = async () => {
             const canap = itemInCart[i];
             const realCanap = canapData.find(data => data._id === canap.id);
             displayBasket(canap, realCanap);
+
 
 
         }
@@ -127,7 +128,8 @@ const displayBasket = (id, realId) => {
         inputQuantity.addEventListener('change', function (q) {
             id.quantity = inputQuantity.value;
             // localStorage.setItem("product", JSON.stringify(itemInCart));
-            console.log(itemInCart)
+            console.log(itemInCart);
+
         })
 
         // Settings bloc : remove quantity
@@ -161,22 +163,44 @@ const displayBasket = (id, realId) => {
 
     }
 
-
+    getTotals(realId)
 }
 
-// function getTotals() {
-//     // Qte
-//     let canapQte = document.querySelector('.itemQuantity');
-//     let qteLength = canapQte.length;
-//     totalQte = 0;
 
-//     for (let q = 0; q < qteLength; ++q) {
-//         totalQte += canapQte[q].valueAsNumber;
-//     }
-//     let totalQuantity = document.getElementById('totalQuantity');
-//     totalQuantity.innerHTML = totalQte;
-//     console.log(totalQte);
-// }
 
+async function getTotals(realId) {
+    // Qte
+
+    let productQte = itemInCart;
+    let totalQte = 0
+    console.log(realId)
+    for (let product of productQte) {
+        totalQte += product.quantity;
+
+    }
+
+    let totalQuantity = document.getElementById('totalQuantity');
+    totalQuantity.textContent = totalQte
+    console.log(totalQte);
+
+    // Price
+    let inputQte = document.getElementsByClassName('itemQuantity')
+    let productPrices = realId;
+    let totalPrce = 0;
+    console.log(productPrices)
+
+
+
+    for (let i = 0; i < inputQte.lenght; ++i) {
+
+        totalPrce += itemInCart[i].quantity * realId.price;
+
+    }
+    console.log(productQte)
+
+    let totalPrice = document.getElementById('totalPrice');
+    totalPrice.textContent = totalPrce;
+    console.log(totalPrce)
+}
 
 
