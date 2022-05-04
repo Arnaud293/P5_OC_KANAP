@@ -173,7 +173,7 @@ async function getTotals(realId) {
 
     let productQte = itemInCart;
     let totalQte = 0
-    console.log(realId)
+
     for (let product of productQte) {
         totalQte += product.quantity;
 
@@ -187,7 +187,7 @@ async function getTotals(realId) {
     let inputQte = document.getElementsByClassName('itemQuantity')
     let productPrices = realId;
     let totalPrce = 0;
-    console.log(productPrices)
+
 
 
 
@@ -196,11 +196,182 @@ async function getTotals(realId) {
         totalPrce += itemInCart[i].quantity * realId.price;
 
     }
-    console.log(productQte)
+
 
     let totalPrice = document.getElementById('totalPrice');
     totalPrice.textContent = totalPrce;
     console.log(totalPrce)
 }
 
+// Validation du formulaire  
 
+function getForm() {
+    const form = document.querySelector('.cart__order__form');
+
+
+    // Création des expressions régulières => RegEx
+
+    let emailReg = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$');
+    let textRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+
+
+    //  Ecoute Prénom
+
+    form.firstName.addEventListener('change', function () {
+        validFirstName(this)
+    })
+
+    // Fonction prénom 
+
+    const validFirstName = function (inputFirstName) {
+        let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
+        if (textRegExp.test(inputFirstName.value)) {
+            firstNameErrorMsg.innerHTML = '';
+        }
+        else {
+            firstNameErrorMsg.innerHTML = 'Merci de renseigner votre prénom';
+        }
+
+    };
+
+    // Ecoute du nom 
+
+    form.lastName.addEventListener('change', function () {
+        validLastName(this)
+    })
+
+    // Fonction nom
+
+    const validLastName = function (inputLastName) {
+        let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+        if (textRegExp.test(inputLastName.value)) {
+            lastNameErrorMsg.innerHTML = '';
+        }
+        else {
+            lastNameErrorMsg.innerHTML = 'Merci de renseigner votre nom';
+        }
+    }
+
+    // Ecoute de l'adresse 
+
+    form.address.addEventListener('change', function () {
+        validAddress(this);
+
+    })
+
+    // fonction adresse 
+
+    const validAddress = function (inputAddress) {
+        let addressErrorMsg = inputAddress.nextElementSibling;
+
+        if (addressRegExp.test(inputAddress.value)) {
+            addressErrorMsg.innerHTML = '';
+        }
+        else {
+            addressErrorMsg.innerHTML = 'Merci de renseigner votre adresse'
+        }
+    }
+
+    //  Ecoute de la ville 
+
+    form.city.addEventListener('change', function () {
+        validCity(this);
+    })
+
+    // Fonction ville 
+
+    const validCity = function (inputCity) {
+        let cityErrorMsg = inputCity.nextElementSibling;
+
+        if (textRegExp.test(inputCity.value)) {
+            cityErrorMsg.innerHTML = '';
+        }
+        else {
+            cityErrorMsg.innerHTML = 'Merci de renseigner une ville'
+        }
+    }
+
+    // Ecoute de l'adresse mail 
+
+    form.email.addEventListener('change', function () {
+        validEmail(this);
+    })
+
+    // fonction email
+
+    const validEmail = function (inputEmail) {
+        let emailErrorMsg = inputEmail.nextElementSibling;
+
+        if (emailReg.test(inputEmail.value)) {
+            emailErrorMsg.innerHTML = '';
+        }
+        else {
+            emailErrorMsg.innerHTML = 'Merci de renseigner votre email'
+        }
+    }
+} getForm();
+
+//  Requête POST :
+
+function postForm() {
+    const btnCommand = document.getElementById('order');
+
+    // Creation de l'événement au click 
+
+    btnCommand.addEventListener('click', function (e) {
+        e.preventDefault();
+        //  Récupération des inputs
+
+        let inputFirstName = document.getElementById('firstName');
+        let inputLastName = document.getElementById('lastName');
+        let inputAddress = document.getElementById('address');
+        let inputCity = document.getElementById('city');
+        let inputEmail = document.getElementById('email');
+
+        // Créer un tableau pour passer les infos
+
+        let productsId = [];
+        for (let p = 0; p < itemInCart.lenght; p++) {
+            productsId.push(itemInCart[i].id)
+        }
+        console.log(productsId);
+
+        const order = {
+            contact: {
+                firstName: inputFirstName.value,
+                lastName: inputLastName.value,
+                address: inputAddress.value,
+                city: inputCity.value,
+                email: inputEmail.value,
+            },
+
+            products: productsId
+        }
+
+        let options = {
+            method: 'POST',
+            body: JSON.stringify(order),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        fetch('http://localhost:3000/api/products/order', options)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                localStorage.clear();
+                localStorage.setItem('orderId', data.orderId);
+
+                document.location.href = 'confirmation.html'
+            })
+            .catch((err) => {
+                alert('Issue with fetch' + err.message);
+            })
+    })
+}
+postForm();
