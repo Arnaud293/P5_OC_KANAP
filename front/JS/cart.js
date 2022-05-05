@@ -184,16 +184,17 @@ async function getTotals(realId) {
     console.log(totalQte);
 
     // Price
-    let inputQte = document.getElementsByClassName('itemQuantity')
+    let inputQte = document.getElementsByClassName('itemQuantity');
+
     let productPrices = realId;
     let totalPrce = 0;
-
-
+    console.log(realId)
 
 
     for (let i = 0; i < inputQte.lenght; ++i) {
 
         totalPrce += itemInCart[i].quantity * realId.price;
+        console.log(itemInCart[i].quantity)
 
     }
 
