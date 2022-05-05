@@ -31,15 +31,22 @@ const getCanapData = async () => {
     }
 
     else {
-
+        let totalPrice = 0;
         for (let i = 0; i < itemInCart.length; i++) {
             const canap = itemInCart[i];
             const realCanap = canapData.find(data => data._id === canap.id);
+            totalPrice += itemInCart[i].quantity * realCanap.price;
+            let totalPriceElement = document.getElementById('totalPrice');
+            totalPriceElement.textContent = totalPrice;
+            console.log(totalPrice)
+
             displayBasket(canap, realCanap);
 
 
 
         }
+        // Calcul prix
+
     }
 
 }
@@ -103,6 +110,7 @@ const displayBasket = (id, realId) => {
         productPrice.textContent = realId.price + ' ' + '€';
         divItemDescription.appendChild(productPrice);
 
+
         // Settings bloc 
 
         let settingsBloc = document.createElement('div');
@@ -161,14 +169,15 @@ const displayBasket = (id, realId) => {
 
 
 
+
     }
 
-    getTotals(realId)
+    getTotals()
 }
 
 
 
-async function getTotals(realId) {
+async function getTotals() {
     // Qte
 
     let productQte = itemInCart;
@@ -183,25 +192,28 @@ async function getTotals(realId) {
     totalQuantity.textContent = totalQte
     console.log(totalQte);
 
-    // Price
-    let inputQte = document.getElementsByClassName('itemQuantity');
-
-    let productPrices = realId;
-    let totalPrce = 0;
-    console.log(realId)
+    // // Price
+    // let inputQte = document.getElementsByClassName('itemQuantity');
 
 
-    for (let i = 0; i < inputQte.lenght; ++i) {
-
-        totalPrce += itemInCart[i].quantity * realId.price;
-        console.log(itemInCart[i].quantity)
-
-    }
 
 
-    let totalPrice = document.getElementById('totalPrice');
-    totalPrice.textContent = totalPrce;
-    console.log(totalPrce)
+    // const newArray = [realId.price, itemInCart.quantity];
+    // console.log(newArray)
+
+    // let totalPrce = 0;
+
+    // for (let i = 0; i < itemInCart.lenght; ++i) {
+
+    //     totalPrce += itemInCart[i].quantity * realId.price;
+
+
+    // }
+
+
+    // let totalPrice = document.getElementById('totalPrice');
+    // totalPrice.textContent = totalPrce;
+    // console.log(totalPrce)
 }
 
 // Validation du formulaire  
