@@ -78,7 +78,7 @@ document.querySelector('#addToCart').addEventListener('click', function () {
     // Confirmation d'ajout au panier 
 
     const popupConfirmation = () => {
-        if (window.confirm(`${optionProduct.name} ${optionProduct.color} a été ajouté à votre panier :
+        if (window.confirm(`${optionProduct.quantity} ${optionProduct.name} ${optionProduct.color} a été ajouté à votre panier :
 OK pour consulter votre panier, ANNULER pour continuer vos achats`)) {
             window.location.href = 'cart.html';
 
@@ -102,7 +102,7 @@ OK pour consulter votre panier, ANNULER pour continuer vos achats`)) {
 
 
         } else {
-            optionProduct.quantity = 1;
+            // optionProduct.quantity = 1;
             notEmpty.push(optionProduct);
 
         }
