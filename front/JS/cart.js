@@ -35,6 +35,9 @@ const getCanapData = async () => {
         for (let i = 0; i < itemInCart.length; i++) {
             const canap = itemInCart[i];
             const realCanap = canapData.find(data => data._id === canap.id);
+
+            // + calcul du prix total directement à chaque boucle.
+
             totalPrice += itemInCart[i].quantity * realCanap.price;
             let totalPriceElement = document.getElementById('totalPrice');
             totalPriceElement.textContent = totalPrice;
@@ -195,12 +198,6 @@ async function getTotals() {
     // // Price
     // let inputQte = document.getElementsByClassName('itemQuantity');
 
-
-
-
-    // const newArray = [realId.price, itemInCart.quantity];
-    // console.log(newArray)
-
     // let totalPrce = 0;
 
     // for (let i = 0; i < itemInCart.lenght; ++i) {
@@ -333,58 +330,76 @@ function getForm() {
 function postForm() {
     const btnCommand = document.getElementById('order');
 
+
+
+    //  Récupération des inputs
+
+    let inputFirstName = document.getElementById('firstName');
+    let inputLastName = document.getElementById('lastName');
+    let inputAddress = document.getElementById('address');
+    let inputCity = document.getElementById('city');
+    let inputEmail = document.getElementById('email');
+
     // Creation de l'événement au click 
 
     btnCommand.addEventListener('click', function (e) {
         e.preventDefault();
-        //  Récupération des inputs
-
-        let inputFirstName = document.getElementById('firstName');
-        let inputLastName = document.getElementById('lastName');
-        let inputAddress = document.getElementById('address');
-        let inputCity = document.getElementById('city');
-        let inputEmail = document.getElementById('email');
-
-        // Créer un tableau pour passer les infos
-
-        let productsId = [];
-        for (let p = 0; p < itemInCart.lenght; p++) {
-            productsId.push(itemInCart[i].id)
-        }
-        console.log(productsId);
-
-        const order = {
-            contact: {
-                firstName: inputFirstName.value,
-                lastName: inputLastName.value,
-                address: inputAddress.value,
-                city: inputCity.value,
-                email: inputEmail.value,
-            },
-
-            products: productsId
+        if (
+            !inputFirstName.value ||
+            !inputLastName.value ||
+            !inputCity.value ||
+            !inputAddress.value ||
+            !inputEmail.value) {
+            alert("Vous devez renseigner tous les champs !");
+            e.preventDefault();
         }
 
-        let options = {
-            method: 'POST',
-            body: JSON.stringify(order),
-            headers: {
-                "Content-Type": "application/json",
+
+        else {
+
+
+            // Créer un tableau pour passer les infos
+
+            let productsId = [];
+            for (let p = 0; p < itemInCart.lenght; p++) {
+                productsId.push(itemInCart[i].id)
             }
-        };
+            console.log(productsId);
 
-        fetch('http://localhost:3000/api/products/order', options)
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                localStorage.clear();
-                localStorage.setItem('orderId', data.orderId);
+            const order = {
+                contact: {
+                    firstName: inputFirstName.value,
+                    lastName: inputLastName.value,
+                    address: inputAddress.value,
+                    city: inputCity.value,
+                    email: inputEmail.value,
+                },
 
-                document.location.href = 'confirmation.html'
-            })
-            .catch((err) => {
-                alert('Issue with fetch' + err.message);
-            })
+                products: productsId
+            }
+
+            let options = {
+                method: 'POST',
+                body: JSON.stringify(order),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            };
+
+            fetch('http://localhost:3000/api/products/order', options)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    localStorage.clear();
+                    localStorage.setItem('orderId', data.orderId);
+
+                    document.location.href = 'confirmation.html'
+                })
+                .catch((err) => {
+                    alert('Issue with fetch' + err.message);
+                });
+        }
+
     })
 }
 postForm();
