@@ -8,9 +8,14 @@ let canapData = []
 // Récupérer les donnée des canapés
 
 const getallproducts = async () => {
-    const res = await fetch('http://localhost:3000/api/products')
-    canapData = await res.json();
-    console.log(canapData);
+    try {
+        const res = await fetch('http://localhost:3000/api/products')
+        canapData = await res.json();
+        console.log(canapData);
+    }
+    catch {
+        alert('erreur avec fetch')
+    }
 
 
 }

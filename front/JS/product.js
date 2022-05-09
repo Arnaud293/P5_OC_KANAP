@@ -11,10 +11,16 @@ let canapData = [];
 
 // Chercher les info de l'API
 const getproductbyID = async () => {
-    const res = await fetch(`http://localhost:3000/api/products/${canapId}`)
-    canapData = await res.json()
+    try {
 
-    console.log(canapData);
+        const res = await fetch(`http://localhost:3000/api/products/${canapId}`)
+        canapData = await res.json()
+
+        console.log(canapData);
+    }
+    catch {
+        alert('Problème avec fetch')
+    }
 }
 getproductbyID();
 
@@ -102,7 +108,7 @@ OK pour consulter votre panier, ANNULER pour continuer vos achats`)) {
 
 
         } else {
-            // optionProduct.quantity = 1;
+
             notEmpty.push(optionProduct);
 
         }

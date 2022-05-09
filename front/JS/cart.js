@@ -138,7 +138,8 @@ const displayBasket = (id, realId) => {
         settingsQuantity.appendChild(inputQuantity);
         inputQuantity.addEventListener('change', function (q) {
             id.quantity = inputQuantity.value;
-            // localStorage.setItem("product", JSON.stringify(itemInCart));
+            localStorage.setItem("product", JSON.stringify(itemInCart));
+            location.reload();
             console.log(itemInCart);
 
         })
@@ -162,10 +163,10 @@ const displayBasket = (id, realId) => {
             console.log(colorToRemove)
 
             itemInCart = itemInCart.filter(element => element.id !== idToRemove || element.color !== colorToRemove);
-            // localStorage.setItem("product", JSON.stringify(itemInCart));
+            localStorage.setItem("product", JSON.stringify(itemInCart));
             e.target.closest('.cart__item').remove();
             alert(`${id.quantity} ${id.name} ${id.color} à été retiré du panier !`);
-            // document.location.reload();
+            location.reload();
             console.log(itemInCart)
         })
 
@@ -216,15 +217,15 @@ async function getTotals() {
 // Validation du formulaire  
 
 function getForm() {
+
     const form = document.querySelector('.cart__order__form');
 
 
-    // Création des expressions régulières => RegEx
+    // Création des expressions régulières => RegExp
 
     let emailReg = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$');
     let textRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
     let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
-
 
 
     //  Ecoute Prénom
@@ -233,7 +234,7 @@ function getForm() {
         validFirstName(this)
     })
 
-    // Fonction prénom 
+    // Validation prénom 
 
     const validFirstName = function (inputFirstName) {
         let firstNameErrorMsg = inputFirstName.nextElementSibling;
@@ -253,7 +254,7 @@ function getForm() {
         validLastName(this)
     })
 
-    // Fonction nom
+    // Validation nom
 
     const validLastName = function (inputLastName) {
         let lastNameErrorMsg = inputLastName.nextElementSibling;
@@ -273,7 +274,7 @@ function getForm() {
 
     })
 
-    // fonction adresse 
+    // Validation adresse 
 
     const validAddress = function (inputAddress) {
         let addressErrorMsg = inputAddress.nextElementSibling;
@@ -292,7 +293,7 @@ function getForm() {
         validCity(this);
     })
 
-    // Fonction ville 
+    // Validation ville 
 
     const validCity = function (inputCity) {
         let cityErrorMsg = inputCity.nextElementSibling;
@@ -311,7 +312,7 @@ function getForm() {
         validEmail(this);
     })
 
-    // fonction email
+    // Validation email
 
     const validEmail = function (inputEmail) {
         let emailErrorMsg = inputEmail.nextElementSibling;
