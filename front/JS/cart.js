@@ -189,6 +189,12 @@ async function getTotals() {
     console.log(totalQte);
 }
 
+// Création des expressions régulières => RegExp
+
+let emailReg = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$');
+let textRegExp = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüç ,.'-]+$");
+let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
 // Validation du formulaire  
 
 function getForm() {
@@ -196,11 +202,7 @@ function getForm() {
     const form = document.querySelector('.cart__order__form');
 
 
-    // Création des expressions régulières => RegExp
 
-    let emailReg = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$');
-    let textRegExp = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüç ,.'-]+$");
-    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
 
     //  Ecoute Prénom
@@ -320,7 +322,7 @@ function postForm() {
     // Creation de l'événement au click 
 
     btnCommand.addEventListener('click', function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         if (
             !inputFirstName.value ||
             !inputLastName.value ||
@@ -330,6 +332,16 @@ function postForm() {
         ) {
             alert("Vous devez renseigner tous les champs !");
             e.preventDefault();
+        }
+
+        else if (
+            !textRegExp.test(firstName.value) ||
+            !textRegExp.test(lastName.value) ||
+            !textRegExp.test(city.value) ||
+            !addressRegExp.test(address.value) ||
+            !emailReg.test(email.value)
+        ) {
+            alert('Merci de renseigner correctement tous les champs')
         }
 
         else {
