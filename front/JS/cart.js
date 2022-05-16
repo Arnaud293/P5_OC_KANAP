@@ -206,13 +206,14 @@ function getForm() {
     //  Ecoute Prénom
 
     form.firstName.addEventListener('change', function () {
-        validFirstName(this)
+        validFirstName(this);
     })
 
     // Validation prénom 
 
     const validFirstName = function (inputFirstName) {
         let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
 
         if (textRegExp.test(inputFirstName.value)) {
             firstNameErrorMsg.innerHTML = '';
@@ -331,16 +332,6 @@ function postForm() {
             e.preventDefault();
         }
 
-        else if (
-            emailReg.test == false ||
-            textRegExp.test == false ||
-            addressRegExp.test == false
-        ) {
-            alert("Merci de remplir les champs correctement.")
-        }
-
-
-
         else {
 
 
@@ -377,9 +368,9 @@ function postForm() {
                 .then((data) => {
                     console.log(data);
                     localStorage.clear();
-                    localStorage.setItem('orderId', data.orderId);
+                    // localStorage.setItem('orderId', data.orderId);
 
-                    document.location.href = 'confirmation.html'
+                    document.location.href = 'confirmation.html?orderId=' + data.orderId
                 })
                 .catch((err) => {
                     alert('Issue with fetch' + err.message);
