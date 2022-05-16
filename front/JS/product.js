@@ -76,8 +76,8 @@ document.querySelector('#addToCart').addEventListener('click', function () {
 
     // Aucun produit n'est sélectionné
 
-    if (Number(optionProduct.quantity) <= 0 && (optionProduct.color) == '') {
-        alert('Veuillez choisir une couleur et une quantité');
+    if (Number(optionProduct.quantity) <= 0 || (optionProduct.quantity) > 100 || (optionProduct.color) == '') {
+        alert('Veuillez choisir une couleur et une quantité comprise en 1 et 100');
         return
     }
 
