@@ -199,7 +199,7 @@ function getForm() {
     // Création des expressions régulières => RegExp
 
     let emailReg = new RegExp('^[a-zA-Z0-9._-]+[@]{1}[a-zA-Z0-9._-]+[.]{1}[a-z]{2,10}$');
-    let textRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+    let textRegExp = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüç ,.'-]+$");
     let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
 
@@ -325,10 +325,20 @@ function postForm() {
             !inputLastName.value ||
             !inputCity.value ||
             !inputAddress.value ||
-            !inputEmail.value) {
+            !inputEmail.value
+        ) {
             alert("Vous devez renseigner tous les champs !");
             e.preventDefault();
         }
+
+        else if (
+            emailReg.test == false ||
+            textRegExp.test == false ||
+            addressRegExp.test == false
+        ) {
+            alert("Merci de remplir les champs correctement.")
+        }
+
 
 
         else {
